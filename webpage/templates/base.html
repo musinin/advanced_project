@@ -1,10 +1,19 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="made chatbot">
 
-{% block title_block %}
-<title>Home</title>
-{% endblock %}
- 
-{% block content_block %}
+    {% block title_block %}
+    <title>Gemini RAG 챗봇</title>
+    {% endblock %}
+
+    {% include "page_modules/common_css.html" %}
+    {% block css_block %}
+    {% endblock %}
+</head>
+
 
 <body>
     <h1>Gemini RAG 챗봇</h1>
@@ -13,6 +22,11 @@
         <input type="text" name="user_input" id="user_input" autocomplete="off" style="width:80%;" required>
         <button type="submit">보내기</button>
     </form>
+
+
+    {% include "page_modules/common_js.html" %}
+    {% block js_block %}
+    {% endblock %}
 
     <script>
         const form = document.getElementById('chat-form');
@@ -38,4 +52,3 @@
     </script>
 </body>
 </html>
-{% endblock %} 
