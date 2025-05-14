@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, session
-from ..model.gemini_chat import chat_with_gemini
+from ..models.gemini_chat import chat_with_gemini
 
 main_bp = Blueprint('main', __name__, url_prefix="/")
 
