@@ -27,11 +27,15 @@
 ├─ frontend/                    [ Vue.js 프론트엔드 ]
 │   ├─ src/                         < Vue 소스 코드 >
 │   │   ├─ assets/                  < 이미지 및 스타일 >
-│   │   ├─ components/              < Vue 컴포넌트 >
-│   │   ├─ views/                   < Vue 뷰 페이지 >
 │   │   │
-│   │   ├─ router/                  < Vue 라우터 설정 >
+│   │   ├─ components/              < Vue 컴포넌트 >
+│   │   │   └─ ChatBot.vue             # UI(화면)와 동작을 담당
+│   │   │
 │   │   ├─ services/                < API 연결 서비스 >
+│   │   │   └─ api.js                  # API 요청 함수
+│   │   │
+│   │   ├─ views/                   < Vue 뷰 페이지 >
+│   │   ├─ router/                  < Vue 라우터 설정 >
 │   │   ├─ store/                   < Vuex 상태관리 >
 │   │   │
 │   │   ├─ App.vue                  # 루트 컴포넌트
