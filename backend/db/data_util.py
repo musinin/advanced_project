@@ -1,77 +1,50 @@
-import sqlite3
-import json
-import os
+import pymysql
 from datetime import datetime
+from config import Config
 
-# 데이터베이스 파일 경로
-DB_PATH = os.path.join(os.path.dirname(__file__), 'chatbot.db')
-
-def initialize_db():
-    """데이터베이스 초기화 및 테이블 생성"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    # 대화 기록 테이블 생성
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS chat_history (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id TEXT NOT NULL,
-        user_input TEXT NOT NULL,
-        bot_response TEXT NOT NULL,
-        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+# ------------------ DB 불러오기 -------------------
+def get_db_connection():
+    return pymysql.connect(
+        host=Config.DB_HOST,
+        user=Config.DB_USER,
+        password=Config.DB_PASSWORD,
+        database=Config.DB_NAME,
+        port=Config.DB_PORT,
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
     )
-    ''')
-    
-    conn.commit()
-    conn.close()
 
-def get_chat_history(user_id, limit=10):
-    """사용자의 대화 기록 조회"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    cursor.execute(
-        '''SELECT user_input, bot_response, timestamp 
-           FROM chat_history 
-           WHERE user_id = ? 
-           ORDER BY timestamp DESC LIMIT ?''',
-        (user_id, limit)
-    )
-    
-    rows = cursor.fetchall()
-    conn.close()
-    
-    # 기록을 사용하기 쉬운 형태로 변환
-    history = [
-        {
-            "user": row[0],
-            "bot": row[1],
-            "timestamp": row[2]
-        } for row in rows
-    ]
-    
-    return history[::-1]  # 시간순 정렬
-
-def save_chat_history(user_id, chat_data):
-    """대화 기록 저장"""
-    if not chat_data or 'user' not in chat_data or 'bot' not in chat_data:
-        return False
-        
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
+# ------------------ 로그 저장 -------------------
+def save_log(user_id, user_input, response):
+    conn = get_db_connection()
     try:
-        cursor.execute(
-            'INSERT INTO chat_history (user_id, user_input, bot_response) VALUES (?, ?, ?)',
-            (user_id, chat_data['user'], chat_data['bot'])
-        )
+        with conn.cursor() as cursor:
+            sql = '''
+                INSERT INTO chat_history 
+                (user_id, user_input, bot_response) 
+                VALUES (%s, %s, %s)
+            '''
+            cursor.execute(sql, (user_id, user_input, response))
         conn.commit()
-        conn.close()
-        return True
     except Exception as e:
-        print(f"Error saving chat history: {e}")
+        print(f"로그 저장 오류: {e}")
+    finally:
         conn.close()
-        return False
 
-# 데이터베이스 초기화 (앱 시작 시 자동 실행)
-initialize_db()
+# ------------------ 대화 기록 조회 -------------------
+def get_chat_history(user_id, limit=10):
+    
+    conn = get_db_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute('''
+                SELECT user_input, bot_response, timestamp 
+                FROM chat_history 
+                WHERE user_id = %s 
+                ORDER BY timestamp DESC 
+                LIMIT %s
+            ''', (user_id, limit))
+            result = cursor.fetchall()
+        return result
+    finally:
+        conn.close()

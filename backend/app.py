@@ -4,6 +4,8 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 
+from api.controllers.main_view import main_bp
+
 # 환경 변수 로드
 load_dotenv()
 
