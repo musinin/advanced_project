@@ -40,14 +40,14 @@
 │   │   │   ├─ main_view.py         # 기본 route 설정 챗봇 대화 API
 │   │   │   └─ data_view.py         # 데이터 페이지 route 설정 대화 기록 API
 │   │   │
-│   │   ├─ models/                  # 학습모델 폴더 >
+│   │   ├─ models/                  # 학습모델 폴더
 │   │   │   └─ gemini_chat.py       # 챗봇 엔진
 │   │   │
 │   │   ├─ utils/                   # 유틸리티 함수
 │   │   │
 │   │   └─ __init__.py              # API 블루프린트 통합
 │   │
-│   ├─ db/                          # 필요한 데이터베이스 연동 보관 > 
+│   ├─ db/                          # 필요한 데이터베이스 연동 보관
 │   │   └─ data_util.py             # 데이터베이스 연동
 │   │
 │   ├─ __init__.py                  # Flask 앱 초기화
@@ -58,27 +58,30 @@
 │                                     .env 파일은 보안상 .gitignore에 포함
 │
 ├─ frontend/                        [ Vue.js 프론트엔드 ]
-│   ├─ src/                         # Vue 소스 코드 >
-│   │   ├─ assets/                  # 이미지 및 스타일 >
-│   │   │
-│   │   ├─ components/              # Vue 컴포넌트 >
-│   │   │   └─ ChatBot.vue          # UI(화면)와 동작을 담당
-│   │   │
-│   │   ├─ services/                # API 연결 서비스 >
-│   │   │   └─ api.js               # API 요청 함수
-│   │   │
-│   │   ├─ views/                   # Vue 뷰 페이지 >
-│   │   ├─ router/                  # Vue 라우터 설정 >
-│   │   ├─ store/                   # Vuex 상태관리 >
-│   │   │
-│   │   ├─ App.vue                  # 루트 컴포넌트
-│   │   └─ main.js                  # Vue 진입점
+│   ├─ public/                      # 정적 파일 (HTML, 이미지 등)
 │   │
-│   ├─ public/                      # 정적 파일 >
-│   ├─ babel.config.js 
-│   ├─ package.json                 # npm 패키지 정보
-│   └─ vue.config.js                # Vue 설정 파일
-│
+│   ├─ src/                         # Vue 소스 코드
+│   │   ├─ assets/                  # 이미지, CSS, 폰트 등 정적 리소스
+│   │   │
+│   │   ├─ views/                   # 페이지 단위 Vue 컴포넌트 (라우트 대상)
+│   │   │   ├─ ChatBot.vue          # 챗봇 UI 및 로직 담당 컴포넌트
+│   │   │   └─ Quote.vue            # 부가 언급 컴포넌트
+│   │   │
+│   │   ├─ services/                # API 호출 및 비즈니스 로직 분리
+│   │   │   └─ api.js               # 백엔드 API 요청 함수 모음
+│   │   │
+│   │   ├─ router/                  # Vue 라우터 설정 파일
+│   │   │   └─ index.js             # 라우터 기본 설정
+│   │   │
+│   │   ├─ components/              # Vue 컴포넌트 (재사용 UI 단위)
+│   │   ├─ store/                   # Vuex 상태 관리 모듈
+│   │   │
+│   │   ├─ App.vue                  # 최상위 루트 컴포넌트
+│   │   └─ main.js                  # Vue 앱 진입점 (엔트리 포인트)
+│   │
+│   ├─ babel.config.js              # Babel 설정 파일
+│   ├─ package.json                 # 프로젝트 npm 패키지 및 스크립트 정보
+│   └─ vue.config.js                # Vue CLI 커스텀 설정
 │
 ├─ notebook                         # 데이터 분석 및 학습용 Jupyter 노트북
 ├─ .gitignore
