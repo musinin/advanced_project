@@ -1,6 +1,11 @@
 <template>
   <div class="chatbot-container">
     <h1>하루하루</h1>
+    <div class="btn-wrapper">
+      <button @click="goToQuote" class="tree-btn">
+        오늘의 명언
+      </button>
+    </div>
     <div class="chat-box" ref="chatBox">
       <div
         v-for="(msg, i) in messages"
@@ -56,6 +61,9 @@ export default {
         const box = this.$refs.chatBox;
         box.scrollTop = box.scrollHeight;
       });
+    },
+    goToQuote() {
+      this.$router.push('/quote');
     }
   }
 };
@@ -123,4 +131,21 @@ h1 {
 .chat-btn:hover {
   background: #226c2c;
 }
+
+.btn-wrapper {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin-bottom: 10px;
+}
+.tree-btn {
+  background-color: #8b5e3c; /* 나무 갈색 */
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 </style>
