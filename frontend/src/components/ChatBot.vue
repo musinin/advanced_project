@@ -2,7 +2,11 @@
   <div class="chatbot-container">
     <h1>하루하루</h1>
     <div class="chat-box" ref="chatBox">
-      <div v-for="(msg, i) in messages" :key="i" :class="['chat-message', msg.type]">
+      <div
+        v-for="(msg, i) in messages"
+        :key="i"
+        :class="['chat-message', msg.type]"
+      >
         <b>{{ msg.type === 'user' ? '나' : '챗봇' }}:</b> {{ msg.text }}
       </div>
     </div>
@@ -23,7 +27,7 @@
 </template>
 
 <script>
-import api from '@/services/api'; // axios로 Flask API 연결
+import api from '@/services/api';
 
 export default {
   name: 'ChatBot',
@@ -37,7 +41,7 @@ export default {
   methods: {
     async sendMessage() {
       if (!this.userInput.trim() || this.isLoading) return;
-      this.isLoading = true;  // 전송 중 비활성화
+      this.isLoading = true;
       this.messages.push({ type: 'user', text: this.userInput });
 
       try {
@@ -47,7 +51,7 @@ export default {
         this.messages.push({ type: 'bot', text: '오류가 발생했습니다.' });
       }
       this.userInput = '';
-      this.isLoading = false; // 응답 오면 다시 활성화
+      this.isLoading = false;
       this.$nextTick(() => {
         const box = this.$refs.chatBox;
         box.scrollTop = box.scrollHeight;
@@ -59,30 +63,33 @@ export default {
 
 <style scoped>
 .chatbot-container {
-  max-width: 500px;
+  max-width: 700px;
   margin: 40px auto;
   padding: 24px;
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 24px rgba(7, 44, 19, 0.493);
 }
 h1 {
   font-size: 1.5rem;
   margin-bottom: 16px;
   text-align: center;
+  font-weight: bold;
 }
 .chat-box {
-  height: 300px;
+  height: 500px;
   overflow-y: auto;
   border: 1px solid #eee;
   border-radius: 8px;
-  padding: 12px;
+  padding: 24px;
   background: #f9f9f9;
   margin-bottom: 18px;
+  font-size: 1.1rem;
+  transition: box-shadow 0.2s;
 }
 .chat-message {
-  margin-bottom: 10px;
-  line-height: 1.6;
+  margin-bottom: 14px;
+  line-height: 1.7;
 }
 .chat-message.user {
   text-align: right;
@@ -98,7 +105,7 @@ h1 {
 }
 .chat-input {
   flex: 1;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 1rem;
@@ -108,7 +115,7 @@ h1 {
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 8px 18px;
+  padding: 10px 22px;
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
